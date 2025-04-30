@@ -1,9 +1,9 @@
 package classes
 
-class JsonNull<T>(val v: T): JsonValue {
+class JsonNull<T>(val value: T): JsonValue {
 
     init {
-        require(this.v == null)
+        require(this.value == null)
     }
 
     override fun toJsonString(): String {
