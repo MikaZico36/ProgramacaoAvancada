@@ -1,4 +1,7 @@
 package classes
 
-class JsonBoolean(val value: Boolean) {
+class JsonBoolean(private val value: Boolean):JsonValue {
+    override fun toJsonString(): String {
+        return "$value"
+    }
 }
