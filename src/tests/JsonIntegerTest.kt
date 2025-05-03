@@ -1,5 +1,5 @@
 package tests
-import classes.JsonInteger
+import classes.primitive.JsonInteger
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

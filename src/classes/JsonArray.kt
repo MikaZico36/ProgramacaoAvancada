@@ -1,13 +1,26 @@
 package classes
 
-class JsonArray(val values: List<JsonValue>): JsonValue {
+import classes.interfaces.JsonValue
+import classes.interfaces.JsonVisitor
+
+class JsonArray(private val values: List<JsonValue>): JsonValue {
 
     override fun toJsonString(): String {
         return "\'[${values.joinToString { it.toJsonString() }}]\'"
     }
 
-    override fun filter(predicate: (JsonValue) -> Boolean): JsonValue {
+    fun filter(predicate: (JsonValue) -> Boolean): JsonValue {
         val filteredValues = values.filter(predicate)
         return JsonArray(filteredValues)
+    }
+
+    fun mapping(transform: (JsonValue) -> JsonValue): JsonArray {
+        val mappedValues = values.map(transform)
+        return JsonArray(mappedValues)
+    }
+
+    override fun accept(visitor: JsonVisitor) {
+        visitor.visitArray(this)
+        values.forEach { it.accept(visitor) }
     }
 }

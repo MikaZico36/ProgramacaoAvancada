@@ -1,6 +1,6 @@
 package tests
 
-import classes.JsonNull
+import classes.primitive.JsonNull
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

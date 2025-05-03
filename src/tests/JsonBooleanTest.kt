@@ -1,5 +1,5 @@
 package tests
-import classes.JsonBoolean
+import classes.primitive.JsonBoolean
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
