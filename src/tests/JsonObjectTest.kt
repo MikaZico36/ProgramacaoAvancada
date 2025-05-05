@@ -1,6 +1,6 @@
 package tests
 import classes.JsonObject
-import classes.primitive.JsonInteger
+import classes.primitive.JsonNumber
 import classes.primitive.JsonString
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -9,7 +9,7 @@ class JsonObjectTest {
 
     val obj = JsonObject(mapOf(
         "name" to JsonString("John"),
-        "age" to JsonInteger(30),
+        "age" to JsonNumber(30),
         "languages" to JsonObject(mapOf(
             "english" to JsonString("fluent"),
             "french" to JsonString("basic"),
@@ -35,10 +35,4 @@ class JsonObjectTest {
         assertEquals("\'{\"english\": \"fluent\"}\'", filteredObj?.toJsonString())
     }
 
-    @Test
-    fun testMapping() {
-        val languages = obj.get("languages") as? JsonObject
-        val mappedObj = languages?.mapping { value -> if (value is JsonString) JsonString(value.toJsonString().replace("\"", "").uppercase()) else value }
-        assertEquals("\'{\"english\": \"FLUENT\", \"french\": \"BASIC\", \"german\": \"BASIC\"}\'", mappedObj?.toJsonString())
-    }
 }

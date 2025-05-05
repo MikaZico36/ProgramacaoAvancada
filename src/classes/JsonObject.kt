@@ -19,11 +19,6 @@ class JsonObject(private val values: Map<String, JsonValue>) : JsonValue {
         return JsonObject(filteredValues)
     }
 
-    fun mapping(transform: (JsonValue) -> JsonValue): JsonObject {
-        val mappedValues = values.mapValues { transform(it.value) }
-        return JsonObject(mappedValues)
-    }
-
 
 
 }

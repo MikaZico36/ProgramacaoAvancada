@@ -6,24 +6,43 @@ import org.junit.jupiter.api.Test
 
 class JsonArrayTest {
 
+    val array = JsonArray(arrayOf(JsonString("a"), JsonString("b"), JsonString("c")).toList())
+
     @Test
     fun toJsonStringTest() {
-        val i = JsonArray(arrayOf(JsonString("a"), JsonString("b"), JsonString("c")).toList())
-        assertEquals("\'[\"a\", \"b\", \"c\"]\'",i.toJsonString())
+
+        assertEquals("\'[\"a\", \"b\", \"c\"]\'",array.toJsonString())
     }
 
     @Test
     fun filterJsonArrayTest() {
-        val i = JsonArray(arrayOf(JsonString("a"), JsonString("b"), JsonString("c")).toList())
-        val filteredI = i.filter { it -> it.toJsonString() != "\"a\""}
-        assertEquals("\'[\"b\", \"c\"]\'",filteredI.toJsonString())
+
+        val filteredArray = array.filter { it -> it.toJsonString() != "\"a\""}
+        assertEquals("\'[\"b\", \"c\"]\'",filteredArray.toJsonString())
     }
 
     @Test
     fun mapJsonArrayTest() {
-        val i = JsonArray(arrayOf(JsonString("a"), JsonString("b"), JsonString("c")).toList())
-        val mappedI = i.mapping { it -> JsonString(it.toJsonString().replace("\"", "").uppercase()) }
-
+        val mappedI = array.mapping { it -> JsonString(it.toJsonString().replace("\"", "").uppercase()) }
         assertEquals("\'[\"A\", \"B\", \"C\"]\'",mappedI.toJsonString())
+    }
+
+    @Test
+    fun getJsonArrayTest() {
+        val jsonValue = array.get(1)
+        assertEquals("\"b\"", jsonValue?.toJsonString())
+    }
+
+    @Test
+    fun sizeJsonArrayTest() {
+        val size = array.size()
+        assertEquals(3, size)
+    }
+
+    @Test
+    fun isEmptyJsonArrayTest() {
+        val emptyArray = JsonArray(emptyList())
+        assertTrue(emptyArray.isEmpty())
+        assertFalse(array.isEmpty())
     }
 }

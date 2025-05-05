@@ -23,4 +23,20 @@ class JsonArray(private val values: List<JsonValue>): JsonValue {
         visitor.visitArray(this)
         values.forEach { it.accept(visitor) }
     }
+
+    fun get(index: Int): JsonValue? {
+        return if (index in values.indices) {
+            values[index]
+        } else {
+            null
+        }
+    }
+
+    fun size(): Int {
+        return values.size
+    }
+
+    fun isEmpty(): Boolean {
+        return values.isEmpty()
+    }
 }
