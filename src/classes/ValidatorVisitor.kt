@@ -2,10 +2,7 @@ package classes
 
 import classes.interfaces.JsonValue
 import classes.interfaces.JsonVisitor
-import classes.primitive.JsonBoolean
-import classes.primitive.JsonNull
-import classes.primitive.JsonNumber
-import classes.primitive.JsonString
+import classes.primitive.*
 
 class ValidatorVisitor: JsonVisitor {
     private var validator: Boolean = true
@@ -26,7 +23,8 @@ class ValidatorVisitor: JsonVisitor {
     override fun visitNull(jsonNull: JsonNull<*>) {}
 
     override fun visitNumber(jsonNumber: JsonNumber) {}
-    
+    override fun visitEnum(jsonEnum: JsonEnum) {}
+
     fun getValidator(): Boolean {
         return validator
     }

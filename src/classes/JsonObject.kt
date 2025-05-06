@@ -12,7 +12,7 @@ class JsonObject(private val values: List<Pair<String, JsonValue>>) : JsonValue 
     }
 
 
-    override fun toJsonString() = "\'{${values.joinToString { "\"${it.first}\": ${it.second.toJsonString()}" }}}\'"
+    override fun toJsonString() = "{${values.joinToString { "\"${it.first}\": ${it.second.toJsonString()}" }}}"
 
     override fun accept(visitor: JsonVisitor) {
         visitor.visitObject(this)

@@ -2,10 +2,7 @@ package classes.interfaces
 
 import classes.JsonArray
 import classes.JsonObject
-import classes.primitive.JsonBoolean
-import classes.primitive.JsonNull
-import classes.primitive.JsonNumber
-import classes.primitive.JsonString
+import classes.primitive.*
 
 
 /**
@@ -59,4 +56,11 @@ interface JsonVisitor {
     * @param jsonNumber o valor numérico a ser visitado.
     */
     fun visitNumber(jsonNumber: JsonNumber)
+
+    /**
+     * Visita um JSON Enumerado e executa uma operação sobre ele.
+     *
+     * @param jsonEnum o valor do enumerado a ser visitado.
+     */
+    fun visitEnum(jsonEnum: JsonEnum)
 }

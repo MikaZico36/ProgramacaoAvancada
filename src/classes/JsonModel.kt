@@ -18,7 +18,6 @@ class JsonModel {
             is Number -> JsonNumber(value)
             is Boolean -> JsonBoolean(value)
             is List<*> -> JsonArray(value.map { toJsonModel(it) })
-            //is Enum...
             is Map<*,*> -> {
                 if (value.keys.all {it is String}) {
                     val pairs = value.entries.map { (key,value) -> key as String to toJsonModel(value) }
