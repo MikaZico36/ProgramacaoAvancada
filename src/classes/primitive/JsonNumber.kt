@@ -29,4 +29,6 @@ class JsonNumber(private val value: Number) : JsonValue {
         return value is Int && value < 0 || value is Long && value < 0L || value is Double && value < 0.0 || value is Float && value < 0.0f
     }
 
+    fun getValue(): Number = value
+
 }

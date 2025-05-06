@@ -7,15 +7,19 @@ import org.junit.jupiter.api.Test
 
 class JsonObjectTest {
 
-    val obj = JsonObject(mapOf(
+    val obj = JsonObject(
+        listOf(
         "name" to JsonString("John"),
         "age" to JsonNumber(30),
-        "languages" to JsonObject(mapOf(
+        "languages" to JsonObject(
+            listOf(
             "english" to JsonString("fluent"),
             "french" to JsonString("basic"),
             "german" to JsonString("basic")
-        )),
-    ))
+        )
+        ),
+    )
+    )
 
     @Test
     fun testToJsonString() {

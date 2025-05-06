@@ -11,5 +11,6 @@ class JsonBoolean(private val value: Boolean): JsonValue {
     override fun accept(visitor: JsonVisitor) {
         visitor.visitBoolean(this)
     }
+    fun getValue(): Boolean = value
 
 }

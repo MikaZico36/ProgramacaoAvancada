@@ -3,11 +3,16 @@ package classes
 import classes.interfaces.JsonValue
 import classes.interfaces.JsonVisitor
 
-class JsonObject(private val values: Map<String, JsonValue>) : JsonValue {
+class JsonObject(private val values: List<Pair<String, JsonValue>>) : JsonValue {
 
-    fun get(key: String): JsonValue? = values[key]
+    fun get(key: String): JsonValue? = values.find { it.first == key }?.second
 
-    override fun toJsonString() = "\'{${values.entries.joinToString { "\"${it.key}\": ${it.value.toJsonString()}" }}}\'"
+    fun getEntries(): List<String> {
+        return values.map { it.first }
+    }
+
+
+    override fun toJsonString() = "\'{${values.joinToString { "\"${it.first}\": ${it.second.toJsonString()}" }}}\'"
 
     override fun accept(visitor: JsonVisitor) {
         visitor.visitObject(this)
@@ -15,7 +20,7 @@ class JsonObject(private val values: Map<String, JsonValue>) : JsonValue {
     }
 
     fun filter(predicate: (JsonValue) -> Boolean): JsonObject {
-        val filteredValues = values.filter { predicate(it.value) }
+        val filteredValues = values.filter { predicate(it.second) }
         return JsonObject(filteredValues)
     }
 

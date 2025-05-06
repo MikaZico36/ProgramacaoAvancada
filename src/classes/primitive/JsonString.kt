@@ -11,6 +11,7 @@ class JsonString(private val value: String): JsonValue {
     override fun accept(visitor: JsonVisitor) {
         return visitor.visitString(this)
     }
+    fun getValue(): String = value
 
 
 }
