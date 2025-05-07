@@ -57,10 +57,4 @@ interface JsonVisitor {
     */
     fun visitNumber(jsonNumber: JsonNumber)
 
-    /**
-     * Visita um JSON Enumerado e executa uma operação sobre ele.
-     *
-     * @param jsonEnum o valor do enumerado a ser visitado.
-     */
-    fun visitEnum(jsonEnum: JsonEnum)
 }

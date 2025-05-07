@@ -9,8 +9,23 @@ import classes.primitive.JsonString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+/**
+ * Classe de testes para [ValidatorVisitor], que implementa a interface [JsonVisitor]
+ * com o objetivo de validar certas propriedades de estruturas JSON.
+ *
+ * Os testes verificam:
+ * - Se todos os elementos de um [JsonArray] possuem o mesmo tipo.
+ * - Se um [JsonObject] contém apenas chaves únicas.
+ */
 class ValidatorVisitorTest {
 
+    /**
+     * Testa o método [ValidatorVisitor.visitArray], que valida se todos os elementos
+     * de um [JsonArray] são do mesmo tipo.
+     *
+     * - O primeiro array (`jArray1`) contém apenas valores booleanos, então deve ser válido.
+     * - O segundo array (`jArray2`) mistura um número e um booleano, então deve ser inválido.
+     */
     @Test
     fun visitArrayTest(){
 
@@ -31,9 +46,15 @@ class ValidatorVisitorTest {
         assertEquals(true, visitor1.getValidator())
         assertEquals(false, visitor2.getValidator())
 
-
     }
 
+    /**
+     * Testa o método [ValidatorVisitor.visitObject], que valida se todas as chaves de um
+     * [JsonObject] são únicas.
+     *
+     * - `jObject1` contém chaves duplicadas ("one"), portanto é inválido.
+     * - `jObject2` contém chaves únicas, então é válido.
+     */
     @Test
     fun visitObjectTest(){
         val map1 = listOf("one" to JsonString("one"), "one" to JsonNumber(2), "three" to JsonString("three"))

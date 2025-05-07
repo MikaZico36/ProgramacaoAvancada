@@ -6,10 +6,33 @@ import classes.primitive.JsonNull
 import classes.primitive.JsonNumber
 import classes.primitive.JsonString
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.jvm.isAccessible
 
+/**
+ * Classe responsável por converter instâncias de objetos em representações compatíveis com Json
+ *
+ * Esta conversão é feita de forma dinâmica, com suporte para
+ * -Tipos primitivos
+ * -Coleções
+ * -Enum
+ * -Data classes
+ *
+ * Qualquer outro tipo não suportado resulta numa exceção
+ *
+ * Implementa a interface [JsonValue],permitindo assim ser usada em estruturas Json
+ *
+ */
 class JsonModel {
 
+    /**
+     * Converte um value genérico para uma representação [JsonValue], que pode ser manipulada e serializada para Json
+     *
+     * @param value O valor a ser convertido
+     * @return Um objeto que implementa [JsonValue] que representa o valor no formato Json
+     *
+     * @throws IllegalArgumentException se o tipo fornecido não for suportado
+     */
     fun toJsonModel(value:Any?): JsonValue {
 
         return when (value){
@@ -18,6 +41,7 @@ class JsonModel {
             is Number -> JsonNumber(value)
             is Boolean -> JsonBoolean(value)
             is List<*> -> JsonArray(value.map { toJsonModel(it) })
+            is Enum<*> -> JsonString(value.name)
             is Map<*,*> -> {
                 if (value.keys.all {it is String}) {
                     val pairs = value.entries.map { (key,value) -> key as String to toJsonModel(value) }
@@ -30,13 +54,18 @@ class JsonModel {
             else -> {
                 val kClass = value::class
                 if (kClass.isData){
-                    val props = kClass.memberProperties.map{ prop ->
-                        prop.isAccessible = true
-                        val name = prop.name
-                        val value = prop.getter.call(value)
-                        name to toJsonModel(value)
+                    val params = kClass.primaryConstructor?.parameters?.map { it.name } ?: emptyList()
+
+                    val propertiesMap= kClass.memberProperties.associateBy { it.name }
+
+                    val orderedProperties = params.mapNotNull { name ->
+                        val prop = propertiesMap[name]
+                        prop?.isAccessible = true
+                        val propValue = prop?.getter?.call(value)
+                        name?.let { it to toJsonModel(propValue) }
                     }
-                    JsonObject(props)
+
+                    JsonObject(orderedProperties)
 
                 }else {
                     throw IllegalArgumentException("Type not Supported!")
