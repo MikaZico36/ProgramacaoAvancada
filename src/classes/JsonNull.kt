@@ -1,4 +1,4 @@
-package classes.primitive
+package classes
 
 import classes.interfaces.JsonValue
 import classes.interfaces.JsonVisitor
@@ -10,19 +10,9 @@ import classes.interfaces.JsonVisitor
  * garantindo assim que apenas 'null' seja aceite
  *
  * Implementa a interface [JsonValue],permitindo assim ser usada em estruturas Json
- *
- * @param T tipo genérico do valor
- * @property value o valor nulo. Será validado no momento da construção
- *
- * @throws IllegalArgumentException se o valor fornecido não for 'null'
- *
+
  */
-class JsonNull<T>(private val value: T): JsonValue {
-
-    init {
-        require(this.value == null)
-    }
-
+class JsonNull: JsonValue {
     /**
      * Retorna a representação de null em formato Json
      *
@@ -31,7 +21,6 @@ class JsonNull<T>(private val value: T): JsonValue {
     override fun toJsonString(): String {
         return "null"
     }
-
     /**
      * Aceita um visitor que implemente a interface [JsonVisitor]
      *

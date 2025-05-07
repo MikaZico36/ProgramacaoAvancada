@@ -12,7 +12,7 @@ import classes.interfaces.JsonVisitor
  *
  * @property values Lista de elementos Json pertencentes a este array
  */
-class JsonArray(private val values: List<JsonValue>): JsonValue {
+data class JsonArray(private val values: List<JsonValue>): JsonValue {
 
     /**
      * Retorna a representação em string do array, conforme o padrão Json

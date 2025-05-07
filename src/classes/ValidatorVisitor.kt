@@ -1,8 +1,6 @@
 package classes
 
-import classes.interfaces.JsonValue
 import classes.interfaces.JsonVisitor
-import classes.primitive.*
 
 /**
  * Implementação do padrão Visitor para a validação de estruturas Json
@@ -117,7 +115,7 @@ class ValidatorVisitor: JsonVisitor {
      *
      * @param jsonNull O valor de [JsonNull]
      */
-    override fun visitNull(jsonNull: JsonNull<*>) {}
+    override fun visitNull(jsonNull: JsonNull) {}
     /**
      * Método não implementado
      *

@@ -3,9 +3,9 @@ package tests
 import classes.JsonArray
 import classes.JsonObject
 import classes.ValidatorVisitor
-import classes.primitive.JsonBoolean
-import classes.primitive.JsonNumber
-import classes.primitive.JsonString
+import classes.JsonBoolean
+import classes.JsonNumber
+import classes.JsonString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

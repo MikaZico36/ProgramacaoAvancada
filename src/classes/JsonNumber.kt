@@ -1,4 +1,4 @@
-package classes.primitive
+package classes
 
 import classes.interfaces.JsonValue
 import classes.interfaces.JsonVisitor
@@ -12,7 +12,7 @@ import classes.interfaces.JsonVisitor
  *
  * @property value o valor numérico representado
  */
-class JsonNumber(private val value: Number) : JsonValue {
+data class JsonNumber(private val value: Number) : JsonValue {
 
     /**
      * Retorna a representação em string do value de acordo com o padrão Json

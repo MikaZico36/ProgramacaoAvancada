@@ -11,7 +11,7 @@ import classes.interfaces.JsonVisitor
  * @property values Lista de pares (key,value) que representa as propriedades do objeto
  *
  */
-class JsonObject(private val values: List<Pair<String, JsonValue>>) : JsonValue {
+data class JsonObject(private val values: List<Pair<String, JsonValue>>) : JsonValue {
 
     /**
      * Recupera o valor associado a uma key específica

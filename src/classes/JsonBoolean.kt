@@ -1,4 +1,4 @@
-package classes.primitive
+package classes
 
 import classes.interfaces.JsonValue
 import classes.interfaces.JsonVisitor
@@ -11,7 +11,7 @@ import classes.interfaces.JsonVisitor
  *
  * @property value valor boolean desta classe
  */
-class JsonBoolean(private val value: Boolean): JsonValue {
+data class JsonBoolean(private val value: Boolean): JsonValue {
 
     /**
      * Retorna a representação em string do value de acordo com o padrão Json

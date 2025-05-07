@@ -1,7 +1,8 @@
 package tests
 
 import classes.JsonArray
-import classes.primitive.JsonString
+import classes.JsonString
+import classes.interfaces.JsonValue
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -41,7 +42,8 @@ class JsonArrayTest {
     @Test
     fun filterJsonArrayTest() {
         val filteredArray = array.filter { it.toJsonString() != "\"a\"" }
-        assertEquals("[\"b\", \"c\"]", filteredArray.toJsonString())
+        val expectedArray = JsonArray(arrayOf(JsonString("b"), JsonString("c")).toList())
+        assertEquals(expectedArray, filteredArray)
     }
 
     /**
@@ -53,7 +55,8 @@ class JsonArrayTest {
     @Test
     fun mapJsonArrayTest() {
         val mappedI = array.mapping { it -> JsonString(it.toJsonString().replace("\"", "").uppercase()) }
-        assertEquals("[\"A\", \"B\", \"C\"]", mappedI.toJsonString())
+        val expectedMappedArray = JsonArray(arrayOf(JsonString("A"), JsonString("B"), JsonString("C")).toList())
+        assertEquals(expectedMappedArray, mappedI)
     }
 
     /**
@@ -65,7 +68,8 @@ class JsonArrayTest {
     @Test
     fun getJsonArrayTest() {
         val jsonValue = array.get(1)
-        assertEquals("\"b\"", jsonValue?.toJsonString())
+        val expectedValue = JsonString("b")
+        assertEquals(expectedValue, jsonValue)
     }
 
     /**

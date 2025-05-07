@@ -1,7 +1,7 @@
 package tests
 import classes.JsonObject
-import classes.primitive.JsonNumber
-import classes.primitive.JsonString
+import classes.JsonNumber
+import classes.JsonString
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -47,8 +47,11 @@ class JsonObjectTest {
      */
     @Test
     fun testGet() {
-        assertEquals(obj.get("name")?.toJsonString(), "\"John\"")
-        assertEquals(obj.get("age")?.toJsonString(), "30")
+
+        val expectedName = JsonString("John")
+        val expectedAge = JsonNumber(30)
+        assertEquals(expectedName, obj.get("name"))
+        assertEquals(expectedAge, obj.get("age"))
     }
     /**
      * Testa a filtragem de pares chave-valor dentro de um objeto JSON.
@@ -61,7 +64,12 @@ class JsonObjectTest {
     fun testFilter() {
         val languages = obj.get("languages") as? JsonObject
         val filteredObj = languages?.filter {value -> value is JsonString && value.toJsonString() == "\"fluent\"" }
-        assertEquals("\'{\"english\": \"fluent\"}\'", filteredObj?.toJsonString())
+        val expectedLanguages = JsonObject(
+            listOf(
+                "english" to JsonString("fluent")
+            )
+        )
+        assertEquals(expectedLanguages, filteredObj)
     }
 
 

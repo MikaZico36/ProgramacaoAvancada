@@ -1,6 +1,6 @@
 package tests
 
-import classes.primitive.JsonNull
+import classes.JsonNull
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -22,6 +22,6 @@ class JsonNullTest {
     fun toJsonStringTest(){
         val n = null
 
-        assertEquals(n.toString(), JsonNull(n).toJsonString())
+        assertEquals(n.toString(), JsonNull().toJsonString())
     }
 }

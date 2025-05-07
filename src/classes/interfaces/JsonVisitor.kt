@@ -1,8 +1,11 @@
 package classes.interfaces
 
 import classes.JsonArray
+import classes.JsonBoolean
+import classes.JsonNull
+import classes.JsonNumber
 import classes.JsonObject
-import classes.primitive.*
+import classes.JsonString
 
 
 /**
@@ -48,7 +51,7 @@ interface JsonVisitor {
     *
     * @param jsonNull o valor nulo a ser visitado.
     */
-    fun visitNull(jsonNull: JsonNull<*>)
+    fun visitNull(jsonNull: JsonNull)
 
     /**
     * Visita um JSON Number (inteiro, decimal, potência,...) e executa uma operação sobre ele.

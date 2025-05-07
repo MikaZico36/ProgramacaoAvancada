@@ -1,10 +1,6 @@
 package classes
 
 import classes.interfaces.JsonValue
-import classes.primitive.JsonBoolean
-import classes.primitive.JsonNull
-import classes.primitive.JsonNumber
-import classes.primitive.JsonString
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.jvm.isAccessible
@@ -36,7 +32,7 @@ class JsonModel {
     fun toJsonModel(value:Any?): JsonValue {
 
         return when (value){
-            null -> JsonNull(value)
+            null -> JsonNull()
             is String -> JsonString(value)
             is Number -> JsonNumber(value)
             is Boolean -> JsonBoolean(value)
