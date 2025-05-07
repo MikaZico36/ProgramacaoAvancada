@@ -36,7 +36,7 @@ class JsonObject(private val values: List<Pair<String, JsonValue>>) : JsonValue 
      * @return Uma string no formato Json, com todas as chaves e valores formatados
      *
      */
-    override fun toJsonString() = "{${values.joinToString { "\"${it.first}\": ${it.second.toJsonString()}" }}}"
+    override fun toJsonString() = "\'{${values.joinToString { "\"${it.first}\": ${it.second.toJsonString()}" }}}\'"
 
     /**
      * Aceita um visitor que implemente a interface [JsonVisitor]
@@ -60,6 +60,8 @@ class JsonObject(private val values: List<Pair<String, JsonValue>>) : JsonValue 
         val filteredValues = values.filter { predicate(it.second) }
         return JsonObject(filteredValues)
     }
+
+
 
 
 
