@@ -1,6 +1,7 @@
 # Kotlin JSON Library
 
 ##Desenvolvido no âmbito da Unidade Curricular de Programação Avançada do 2º semestre do Mestrado de Engenharia Informática
+
 ##Desenvolvido por:
 -Miguel Monteiro Nº 99860
 -Rafaek Gésero Nº 99063
