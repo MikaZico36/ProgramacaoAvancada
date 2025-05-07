@@ -6,7 +6,7 @@
 
 -Miguel Monteiro Nº 99860
 
--Rafaek Gésero Nº 99063
+-Rafael Gésero Nº 99063
 
 
 Uma biblioteca escrita em Kotlin para representar, manipular e validar dados JSON. Suporta conversão de objetos Kotlin para JSON e oferece suporte ao padrão Visitor para extensibilidade.
