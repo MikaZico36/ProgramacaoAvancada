@@ -30,29 +30,37 @@ class JsonModel {
      * @throws IllegalArgumentException se o tipo fornecido não for suportado
      */
     fun toJsonModel(value:Any?): JsonValue {
-
         return when (value){
             null -> JsonNull()
-            is String -> JsonString(value)
+            is String -> {
+                when {
+                    value.equals("true", true) -> JsonBoolean(true)
+                    value.equals("false", true) -> JsonBoolean(false)
+                    value.toIntOrNull() != null -> JsonNumber(value.toInt())
+                    value.toDoubleOrNull() != null -> JsonNumber(value.toDouble())
+                    else -> JsonString(value)
+                }
+            }
             is Number -> JsonNumber(value)
             is Boolean -> JsonBoolean(value)
             is List<*> -> JsonArray(value.map { toJsonModel(it) })
             is Enum<*> -> JsonString(value.name)
-            is Map<*,*> -> {
-                if (value.keys.all {it is String}) {
-                    val pairs = value.entries.map { (key,value) -> key as String to toJsonModel(value) }
-                    JsonObject(pairs)
+            is Map<*, *> -> {
+                if (value.keys.all { it is String }) {
+                    val map = value.entries.associate { (key, value) -> key as String to toJsonModel(value) }
+                    JsonObject(map)
                 } else {
                     throw IllegalArgumentException("Only Map<String, *> supported!")
                 }
             }
 
+
             else -> {
                 val kClass = value::class
-                if (kClass.isData){
+                if (kClass.isData) {
                     val params = kClass.primaryConstructor?.parameters?.map { it.name } ?: emptyList()
 
-                    val propertiesMap= kClass.memberProperties.associateBy { it.name }
+                    val propertiesMap = kClass.memberProperties.associateBy { it.name }
 
                     val orderedProperties = params.mapNotNull { name ->
                         val prop = propertiesMap[name]
@@ -61,12 +69,14 @@ class JsonModel {
                         name?.let { it to toJsonModel(propValue) }
                     }
 
-                    JsonObject(orderedProperties)
+                    // Converte lista para Map aqui:
+                    JsonObject(orderedProperties.toMap())
 
-                }else {
+                } else {
                     throw IllegalArgumentException("Type not Supported!")
                 }
             }
+
 
         }
 

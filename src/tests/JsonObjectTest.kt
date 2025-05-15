@@ -23,9 +23,9 @@ class JsonObjectTest {
             "english" to JsonString("fluent"),
             "french" to JsonString("basic"),
             "german" to JsonString("basic")
-        )
+        ).toMap()
         ),
-    )
+    ).toMap()
     )
 
     /**
@@ -36,7 +36,7 @@ class JsonObjectTest {
      */
     @Test
     fun testToJsonString() {
-        assertEquals("\'{\"name\": \"John\", \"age\": 30, \"languages\": \'{\"english\": \"fluent\", \"french\": \"basic\", \"german\": \"basic\"}\'}\'", obj.toJsonString())
+        assertEquals("{\"name\": \"John\",\"age\": 30,\"languages\": {\"english\": \"fluent\",\"french\": \"basic\",\"german\": \"basic\"}}", obj.toJsonString())
     }
 
     /**
@@ -67,7 +67,7 @@ class JsonObjectTest {
         val expectedLanguages = JsonObject(
             listOf(
                 "english" to JsonString("fluent")
-            )
+            ).toMap()
         )
         assertEquals(expectedLanguages, filteredObj)
     }

@@ -15,42 +15,54 @@ import kotlin.reflect.jvm.isAccessible
 
 class GetJSon(vararg controllers: KClass<*>) {
 
-    //NAO SEI SE É MESMO NECESSARIO, ACHAVA QUE BASTAVA O MAP COM STRINGS E COM O KFUNCTION
     data class Route(
-        val path: String,
+        val pathPattern: Regex,
+        val pathVariableNames: List<String>,
         val controller: Any,
         val method: KFunction<*>
     )
 
-    private val routes = mutableMapOf<String, Route>()
+    private val routes = mutableListOf<Route>()
 
     init {
         for (clazz in controllers) {
-            val basePath = clazz.findAnnotation<Mapping>()?.name ?: String()
+            val basePath = clazz.findAnnotation<Mapping>()?.name ?: ""
             val controllerInstance = clazz.createInstance()
 
             for (function in clazz.memberFunctions) {
-                val subPath = function.findAnnotation<Mapping>()?.name ?: String()
+                val mapping = function.findAnnotation<Mapping>() ?: continue  // ← Adiciona isto
+                val subPath = mapping.name
                 val fullPath = "/$basePath/$subPath".replace("//", "/")
 
-                routes[fullPath] = Route(fullPath, controllerInstance, function)
+                val (regex, variables) = buildPathRegex(fullPath)
+
+                routes.add(Route(regex, variables, controllerInstance, function))
             }
-            for(pair in routes){
-                println("Route: ${pair.key} -> ${pair.value.controller::class.simpleName}.${pair.value.method.name}")
-            }
+        }
+
+        for (route in routes) {
+            println("Route: ${route.pathPattern} -> ${route.controller::class.simpleName}.${route.method.name}")
         }
     }
 
     fun start(port: Int) {
         val server = HttpServer.create(InetSocketAddress(port), 0)
 
-        for ((path, route) in routes) {
-            server.createContext(path, Handler(route))
+        server.createContext("/") { exchange ->
+            val requestPath = exchange.requestURI.path
+            val route = routes.firstOrNull { it.pathPattern.matches(requestPath) }
+
+            if (route == null) {
+                exchange.sendResponseHeaders(404, 0)
+                exchange.responseBody.use { it.write("Not found".toByteArray()) }
+                return@createContext
+            }
+
+            Handler(route).handle(exchange)
         }
 
         server.executor = null
         server.start()
-        println("Server started on port $port")
     }
 
     private class Handler(val route: Route) : HttpHandler {
@@ -58,10 +70,15 @@ class GetJSon(vararg controllers: KClass<*>) {
             try {
                 val queryParams = parseQueryParams(exchange.requestURI)
 
+                val match = route.pathPattern.matchEntire(exchange.requestURI.path)
+                val pathParams = route.pathVariableNames.zip(match!!.groupValues.drop(1)).toMap()
+
                 val args = route.method.parameters.map { param ->
                     when {
                         param.kind == KParameter.Kind.INSTANCE -> route.controller
+                        param.findAnnotation<Param>() != null && param.type.classifier == Map::class -> queryParams
                         param.findAnnotation<Param>() != null -> convertParam(queryParams[param.name], param.type)
+                        param.findAnnotation<Path>() != null -> convertParam(pathParams[param.name], param.type)
                         else -> null
                     }
                 }
@@ -78,7 +95,8 @@ class GetJSon(vararg controllers: KClass<*>) {
                 exchange.responseBody.use { it.write(response.toByteArray()) }
 
             } catch (e: Exception) {
-                val error = "Error: ${e.message}"
+                val error = """{ "error": "${e.message}" }"""
+                println("Exception: ${e.message}")
                 exchange.sendResponseHeaders(500, error.toByteArray().size.toLong())
                 exchange.responseBody.use { it.write(error.toByteArray()) }
             }
@@ -96,16 +114,18 @@ class GetJSon(vararg controllers: KClass<*>) {
             if (value == null) return null
             return when (type) {
                 String::class.createType() -> value
-                Int::class.createType() -> value.toIntOrNull()
-                Double::class.createType() -> value.toDoubleOrNull()
                 Boolean::class.createType() -> value.toBooleanStrictOrNull()
+                Number::class.createType() -> value.toDoubleOrNull() // converte para Double como padrão
                 else -> throw IllegalArgumentException("Unsupported parameter type: $type")
             }
         }
     }
-}
 
-fun main(){
-    val app = GetJSon(Test::class)
-    app.start(8080)
+
+    private fun buildPathRegex(path: String): Pair<Regex, List<String>> {
+        val variableRegex = "\\{([^/]+?)\\}".toRegex()
+        val variableNames = variableRegex.findAll(path).map { it.groupValues[1] }.toList()
+        val regexPattern = "^" + path.replace(variableRegex, "([^/]+)") + "$"
+        return Regex(regexPattern) to variableNames
+    }
 }

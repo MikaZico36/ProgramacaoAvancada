@@ -29,7 +29,7 @@ class JsonModelTest{
 
         val convert = JsonModel().toJsonModel(c)
 
-        val expected = """'{"name": "Programação", "credits": 6, "evaluation": ['{"name": "quizzes", "percentage": 0.2, "mandatory": false, "type": null}', '{"name": "project", "percentage": 0.8, "mandatory": true, "type": "PROJECT"}']}'"""
+        val expected = """{"name": "Programação","credits": 6,"evaluation": [{"name": "quizzes","percentage": 0.2,"mandatory": false,"type": null}, {"name": "project","percentage": 0.8,"mandatory": true,"type": "PROJECT"}]}"""
         assertEquals(expected, convert.toJsonString())
 
 

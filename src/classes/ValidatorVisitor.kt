@@ -85,15 +85,14 @@ class ValidatorVisitor: JsonVisitor {
      */
     private fun checkJsonObject(jsonObject: JsonObject, index: Int=0): Boolean {
         val entries = jsonObject.getEntries()
-        if(index == entries.size) return true
-        if (entries.isEmpty()) return false
+        if (index >= entries.size) return true
         val head = entries[index]
-        for (i in (index + 1) ..< entries.size) {
-            if ( entries[i] == head) {
+        for (i in (index + 1) until entries.size) {
+            if (entries[i] == head) {
                 return false
             }
         }
-        return checkJsonObject(jsonObject, index +1)
+        return checkJsonObject(jsonObject, index + 1)
     }
 
 
