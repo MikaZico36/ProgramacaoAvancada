@@ -129,7 +129,7 @@ A classe `GetJson` é o componente principal do framework HTTP que desenvolvemos
 ### Anotações de Mapeamento (`@Mapping,`, `@Param`, `@Path`)
 
 #### Descrição
-Estas anitações são usadas para definir o mapeamento entre classes e métodos e os endpoints HTTP expostos pelo servidor.
+Estas anotações são usadas para definir o mapeamento entre classes e métodos e os endpoints HTTP expostos pelo servidor.
 
 - `@Mapping`: Pode ser aplicada a classes ou funções para indicar o caminho HTTP que representa o endpoint.
 - `@Param`: Usada para indicar que um parâmetro da função deve ser preenchidp com um valor da query string HTTP.
