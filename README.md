@@ -116,10 +116,11 @@ A classe `GetJson` é o componente principal do framework HTTP que desenvolvemos
 - Implementa um servidor HTTP simples.
 
 #### Estrutura Interna
--Route: Estrutura de dados que contém o padrão de path, variáveis de path, a instância do controlador e o método a invocar.
--buildPathRegex: Contrói regex e extrai as variáveis do path.
--start(port): Inicia o servidor HTTP numa porta específica.
--Handler: Classe interna que processa cada pedido HTTP, faz a análise dos parâmetros, converte-os para os tipos esperados e invoca o método do controlador.
+
+- Route: Estrutura de dados que contém o padrão de path, variáveis de path, a instância do controlador e o método a invocar.
+- buildPathRegex: Contrói regex e extrai as variáveis do path.
+- start(port): Inicia o servidor HTTP numa porta específica.
+- Handler: Classe interna que processa cada pedido HTTP, faz a análise dos parâmetros, converte-os para os tipos esperados e invoca o método do controlador.
 
 #### Processamento de parâmetros
 - Parâmetros anotados com `@Param` são extraídos da query string.
