@@ -114,4 +114,26 @@ class CreateObjectTest {
             assertTrue(body.contains("Controller.createObject"))
         }
     }
+
+    /**
+     * Testa o endpoint /Json/array que retorna uma lista de elementos dados no URL.
+     */
+    @Test
+    fun testArrayEndpoint() {
+        val url = "http://localhost:8080/Json/array?attributes=a&attributes=b&attributes=c"
+        val request = Request.Builder()
+            .url(url)
+            .build()
+        client.newCall(request).execute().use { response ->
+            val body = response.body?.string()
+            assertTrue(response.isSuccessful)
+            assertTrue(body!!.contains("\"a\""))
+            assertTrue(body.contains("\"b\""))
+            assertTrue(body.contains("\"c\""))
+            assertTrue(body.startsWith("["))
+            assertTrue(body.endsWith("]"))
+        }
+    }
+
+
 }

@@ -4,7 +4,7 @@ import classes.interfaces.JsonValue
 import classes.interfaces.JsonVisitor
 
 /**
- * Representa um objeto Json composto por pares key-value, onde a chave é uma [String] e o valor implementa a interface [JsonValue]
+ * Representa um objeto Json composto por um Map, onde a chave é uma [String] e o valor implementa a interface [JsonValue]
  *
  * Implementa a interface [JsonValue], permitindo assim ser usada em estruturas Json
  *

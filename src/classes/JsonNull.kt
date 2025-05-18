@@ -6,7 +6,7 @@ import classes.interfaces.JsonVisitor
 /**
  * Representa um valor null em estrutura Json
  *
- * Esta classe é genérica com o objetivo de poder receber qualquer tipo de objeto e é utilizada para encapsular valores null
+ * Esta classe é genérica para poder receber qualquer tipo de objeto e é utilizada para encapsular valores null
  * garantindo assim que apenas 'null' seja aceite
  *
  * Implementa a interface [JsonValue],permitindo assim ser usada em estruturas Json
@@ -16,7 +16,7 @@ class JsonNull: JsonValue {
     /**
      * Retorna a representação de null em formato Json
      *
-     * @return string "null", de acordo com o padrão Json
+     * @return string "null", segundo o padrão Json
      */
     override fun toJsonString(): String {
         return "null"

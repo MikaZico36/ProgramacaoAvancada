@@ -11,7 +11,7 @@ import kotlin.reflect.jvm.isAccessible
  * Esta conversão é feita de forma dinâmica, com suporte para
  * -Tipos primitivos
  * -Coleções
- * -Enum
+ * -Enumerados
  * -Data classes
  *
  * Qualquer outro tipo não suportado resulta numa exceção
@@ -22,7 +22,9 @@ import kotlin.reflect.jvm.isAccessible
 class JsonModel {
 
     /**
-     * Converte um value genérico para uma representação [JsonValue], que pode ser manipulada e serializada para Json
+     * Converte um value genérico para uma representação [JsonValue], que pode ser manipulada e serialize para Json
+     *
+     * Tem ainda uma verificação de tipo de dados na String para tratar principalmente quando os dados estavam disponíveis num URL.
      *
      * @param value O valor a ser convertido
      * @return Um objeto que implementa [JsonValue] que representa o valor no formato Json
@@ -69,7 +71,6 @@ class JsonModel {
                         name?.let { it to toJsonModel(propValue) }
                     }
 
-                    // Converte lista para Map aqui:
                     JsonObject(orderedProperties.toMap())
 
                 } else {

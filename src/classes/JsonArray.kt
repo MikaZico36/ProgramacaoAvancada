@@ -83,7 +83,7 @@ data class JsonArray(private val values: List<JsonValue>): JsonValue {
     }
 
     /**
-     * Verifica se o value est+a vazio
+     * Verifica se o value está vazio
      *
      * @return 'true' se não houver elementos ou 'false' caso contenha elementos
      */

@@ -5,7 +5,7 @@ package classes.interfaces
  *
  * Interface contém dois métodos a serem implementados:
  * toJsonString(): String -> retorna a string que representa um JsonValue
- * accept(visitor: JsonVisistor) -> permite que um visitor realize ações num JsonValue
+ * accept(visitor: JsonVisitor) -> permite que um visitor realize ações num JsonValue
  *
  * Implementações desta interface
  * - [JsonBoolean] representa um Boolean em Json
