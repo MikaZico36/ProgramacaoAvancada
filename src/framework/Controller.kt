@@ -53,7 +53,7 @@ class Controller {
      * @return JsonValue representa o número.
      */
     @Mapping("number")
-    fun number(@Param attribute: Number): JsonValue {
+    fun number(@Param attribute: String): JsonValue {
         return JsonModel().toJsonModel(attribute)
     }
 
