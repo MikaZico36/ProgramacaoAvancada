@@ -180,6 +180,10 @@ class GetJSon(vararg controllers: KClass<*>) {
          *
          * @param value que é uma string que pode ser null e que diz respeito ao dados
          * @param type que é o tipo do value da string que é conseguido através de reflexão
+         *
+         * @return Any? que é o parâmetro convertido para o tipo correto. Pode ser null e por isso para além dos tipos
+         * normais colocamos a possibilidade de ser null.
+         *
          */
         private fun convertParam(single: String?, multiple: List<String>?, type: kotlin.reflect.KType): Any? {
             val classifier = type.classifier
