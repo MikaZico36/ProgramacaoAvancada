@@ -42,7 +42,7 @@ val name = JsonString("Cristiano")
 val age = JsonNumber(40)
 val active = JsonBoolean(true)
 val jsonObject = JsonObject(
-    listOf("name" to name, "age" to age, "active" to active)
+    listOf("name" to name, "age" to age, "active" to active).toMap()
 )
 println(jsonObject.toJsonString()) 
 // Saída: {"name": "Cristiano", "age": 40, "active": true}
