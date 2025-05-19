@@ -16,16 +16,16 @@ class JsonObjectTest {
 
     val obj = JsonObject(
         listOf(
-        "name" to JsonString("John"),
-        "age" to JsonNumber(30),
-        "languages" to JsonObject(
-            listOf(
-            "english" to JsonString("fluent"),
-            "french" to JsonString("basic"),
-            "german" to JsonString("basic")
+            "name" to JsonString("Cristiano"),
+            "age" to JsonNumber(40),
+            "teams" to JsonObject(
+                listOf(
+                    "Real Madrid" to JsonString("principal"),
+                    "Man United" to JsonString("former"),
+                    "Juventus" to JsonString("retired")
+                ).toMap()
+            ),
         ).toMap()
-        ),
-    ).toMap()
     )
 
     /**
@@ -36,7 +36,7 @@ class JsonObjectTest {
      */
     @Test
     fun testToJsonString() {
-        assertEquals("{\"name\": \"John\",\"age\": 30,\"languages\": {\"english\": \"fluent\",\"french\": \"basic\",\"german\": \"basic\"}}", obj.toJsonString())
+        assertEquals("{\"name\": \"Cristiano\",\"age\": 40,\"teams\": {\"Real Madrid\": \"principal\",\"Man United\": \"former\",\"Juventus\": \"retired\"}}", obj.toJsonString())
     }
 
     /**
@@ -47,9 +47,8 @@ class JsonObjectTest {
      */
     @Test
     fun testGet() {
-
-        val expectedName = JsonString("John")
-        val expectedAge = JsonNumber(30)
+        val expectedName = JsonString("Cristiano")
+        val expectedAge = JsonNumber(40)
         assertEquals(expectedName, obj.get("name"))
         assertEquals(expectedAge, obj.get("age"))
     }
@@ -62,14 +61,16 @@ class JsonObjectTest {
      */
     @Test
     fun testFilter() {
-        val languages = obj.get("languages") as? JsonObject
-        val filteredObj = languages?.filter {value -> value is JsonString && value.toJsonString() == "\"fluent\"" }
-        val expectedLanguages = JsonObject(
+        val teams = obj.get("teams") as? JsonObject
+        val filteredObj = teams?.filter { value ->
+            value is JsonString && value.toJsonString() == "\"principal\""
+        }
+        val expectedTeams = JsonObject(
             listOf(
-                "english" to JsonString("fluent")
+                "Real Madrid" to JsonString("principal")
             ).toMap()
         )
-        assertEquals(expectedLanguages, filteredObj)
+        assertEquals(expectedTeams, filteredObj)
     }
 
 
