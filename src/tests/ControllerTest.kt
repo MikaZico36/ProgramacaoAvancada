@@ -49,7 +49,6 @@ class CreateObjectTest {
 
         client.newCall(request).execute().use { response ->
             val body = response.body?.string()
-
             assertTrue(response.isSuccessful)
             assertTrue(body!!.contains("123"))
         }
