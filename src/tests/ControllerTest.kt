@@ -1,5 +1,6 @@
 package tests
 
+import framework.Controller
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.junit.jupiter.api.Assertions.assertTrue

@@ -2,6 +2,7 @@ package framework
 
 import classes.JsonModel
 import classes.interfaces.JsonValue
+import java.nio.file.Paths
 
 /**
  * Class Controller que possui endpoints JSON para diferentes tipos de dados.
@@ -12,18 +13,28 @@ import classes.interfaces.JsonValue
 class Controller {
 
     /**
-     * Retorna uma string com a lista de paths disponíveis e os métodos correspondentes
+     * Retorna uma string com a lista de paths disponíveis e os métodos correspondentes através de reflexão na classe
      *
      * @return String que contém os paths
      */
     @Mapping("paths")
     fun paths(): String {
-        return "Route: ^/Json/array$ -> Controller.array\n" +
-                "Route: ^/Json/bool$ -> Controller.boolean\n" +
-                "Route: ^/Json/createobject$ -> Controller.createObject\n" +
-                "Route: ^/Json/number$ -> Controller.number\n" +
-                "Route: ^/Json/paths$ -> Controller.paths\n" +
-                "Route: ^/Json/string$ -> Controller.string"
+        val basicPath = this::class.annotations
+            .filterIsInstance<Mapping>()
+            .firstOrNull()
+            ?.name ?: ""
+
+        val pathsList = this::class.members
+            .filter { it.annotations.any { a -> a is Mapping } }
+            .map { method ->
+                val path = method.annotations
+                    .filterIsInstance<Mapping>()
+                    .first()
+                    .name
+                "Method Name: ${this::class.simpleName}.${method.name} | Route: ^/$basicPath/$path\$"
+            }
+
+        return pathsList.joinToString("\n")
     }
 
     /**
