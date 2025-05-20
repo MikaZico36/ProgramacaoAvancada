@@ -1,8 +1,10 @@
 package tests
 
+import classes.JsonModel
 import framework.Controller
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
@@ -23,6 +25,9 @@ class CreateObjectTest {
     fun testCreateObjectEndpoint() {
         val url = "http://localhost:8080/Json/createobject?name=Cristiano&age=40&active=true"
 
+        val p = Player("Cristiano", 40, true)
+        val player = JsonModel().toJsonModel(p)
+
         val request = Request.Builder()
             .url(url)
             .build()
@@ -31,9 +36,7 @@ class CreateObjectTest {
             val body = response.body?.string()
 
             assertTrue(response.isSuccessful)
-            assertTrue(body!!.contains("\"name\": \"Cristiano\""))
-            assertTrue(body.contains("\"age\": 40"))
-            assertTrue(body.contains("\"active\": true"))
+            assertEquals(body, player.toJsonString())
         }
     }
 
@@ -137,3 +140,9 @@ class CreateObjectTest {
 
 
 }
+
+data class Player(
+    val name: String,
+    val age: Int,
+    val active: Boolean
+)
